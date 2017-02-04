@@ -3,11 +3,12 @@
 		
 	</head>
 
-	<body>
+	<body style="font-family: Calibri;">
 		
 	<form id="weather" action="	">
-		<input type="submit" value="submit" text="Submit">
+		<input type="submit" value="Get Forecast">
 		<p id="output"></p>
+		<img id="loader" src="loader.gif" style="display: none;"/>
 	</form>
 
 
@@ -26,6 +27,8 @@
 
 				//on form submit
 				$('#weather').on('submit', function (e) {
+					$('#loader').show();
+					$('#output').html("Loading...");
 			        if (e.isDefaultPrevented()) {
 			            console.log('form is not valid');
 			        } 
@@ -66,11 +69,13 @@
 						success: function(result) {
 							console.log(result);
 							$('#output').html(result);
+							$('#loader').hide();
 						},
 						//invalid
 						error: function(result) {
 							console.log(result);
 							$('#output').html("There was an error retrieving the weather information");
+							$('#loader').hide();
 						}
 					})
 				}
