@@ -11,19 +11,13 @@
 		<img id="loader" src="loader.gif" style="display: none;"/>
 	</form>
 
-
-
-
-
-
-
-
 		<script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
 
 		<script type="text/javascript">
 			$(function() {
 
 				var ds_key = "f5fcf916bad24f6c6c3a002daffc95dc";
+				var postcode = "LS141AB";
 
 				//on form submit
 				$('#weather').on('submit', function (e) {
@@ -34,12 +28,12 @@
 			        } 
 			        else {
 			            e.preventDefault();
-			            var postcode = "LS25+2JJ";
 			            $.ajax({
 			                url: 'http://api.getthedata.com/postcode/' + postcode,
 			                type: 'GET',
 			                //valid json response
 			                success: function(result) {
+			                	console.log("Postcode object:", result);
 			                	handlePostcode(result);
 			                },
 			                //invalid
@@ -58,17 +52,17 @@
 
 				//get data from weather api
 				function grabWeather(latitude, longitude) {
-					console.log(latitude + "," + longitude + " " + ds_key);
+					//console.log(latitude + "," + longitude + " " + ds_key);
 					var lat_long = latitude + "," + longitude;
-					var weather_url = 'https://api.darksky.net/forecast/' + ds_key + "/" + lat_long;
+					var weather_url = 'https://crossorigin.me/https://api.darksky.net/forecast/' + ds_key + "/" + lat_long;
 
 					$.ajax({
 						url: weather_url,
 						type: 'GET',
 						//valid json response
 						success: function(result) {
-							console.log(result);
-							$('#output').html(result);
+							console.log("Weather object:", result);
+							$('#output').html("It is currently " + result.currently.apparentTemperature + " &#8457; at " + postcode);
 							$('#loader').hide();
 						},
 						//invalid
