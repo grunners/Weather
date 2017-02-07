@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	</head>
+
+	<body style="font-family: Calibri;">
+		
+		<script type="text/javascript">
+
+		//humans
+
+		var alien = {
+			kind: "alien"
+		}
+
+		var person = {
+			kind: "person"
+		}
+
+		var adrian = {};
+
+		adrian.__proto__ = alien;
+		console.log(adrian.kind);
+
+		adrian.__proto__ = person;
+		console.log(adrian.kind);
+
+		person.height = 100;
+		console.log(adrian.height);
+
+		var john = Object.create(person);
+		console.log(Object.getPrototypeOf(john));
+
+		function Human(eye_colour, hair_colour) {
+			this.eye_colour = eye_colour;
+			this.hair_colour = hair_colour;
+			this.legs = 2;
+			this.arms = 2;
+		}
+
+		var sally = new Human("blue", "brown");
+
+		console.log("Sally has " + sally.eye_colour + " eyes");
+
+		Human.prototype.feet = 2;
+
+		console.log("Sally has " + sally.feet + " feet");
+
+		// plants
+		function Plant() {
+			this.country = "Mexico";
+			this.isOrganic = true;
+		}
+		
+		//add showNameAndColour and amIOrganic method
+		Plant.prototype = {
+			showNameAndColour: function() {
+				console.log("This is a " + this.name + " and its colour is " + this.colour);
+			},
+			amIOrganic: function() {
+				if (this.isOrganic) {
+					console.log("This plant is organic!");
+				}
+			}
+		}
+
+		function Fruit(fruitName, fruitColour) {
+			this.name = fruitName;
+			this.colour = fruitColour;
+		}
+
+		//set the Fruit's prototype to Plant's constructor and inherit all Plant.prototype properties and methods
+		Fruit.prototype = new Plant();
+
+		//Create a new object, aBanana, with the Fruit constructor
+		var aBanana = new Fruit("Banana", "Yellow");
+
+		console.log(aBanana.name);
+
+		//Use the showNameAndColour method from the Fruit object
+		console.log(aBanana.showNameAndColour());
+
+
+		//**************************************
+		//Loans
+		function Loan(amount, term) {
+			this.amount = amount;
+			this.term = term;
+		}
+
+		Loan.prototype = {
+			showLoanDetails: function() {
+				document.write("The loan amount is " + this.amount + " and the term is " + this.term + ". APR: " + this.apr);
+			},
+			apr: 256
+		}
+		
+		var thisLoan = new Loan(100, 6);
+		thisLoan.showLoanDetails();
+
+		</script>
+	</body>
+</html>
