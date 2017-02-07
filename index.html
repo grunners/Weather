@@ -1,4 +1,5 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
 	<head>
 		
 	</head>
@@ -16,7 +17,7 @@
 		<script type="text/javascript">
 			$(function() {
 
-				var ds_key = "f5fcf916bad24f6c6c3a002daffc95dc";
+				const ds_key = "f5fcf916bad24f6c6c3a002daffc95dc";
 				var postcode = "LS141AB";
 
 				//on form submit
@@ -29,7 +30,7 @@
 			        else {
 			            e.preventDefault();
 			            $.ajax({
-			                url: 'http://api.getthedata.com/postcode/' + postcode,
+			               	url: 'http://api.getthedata.com/postcode/' + postcode,
 			                type: 'GET',
 			                //valid json response
 			                success: function(result) {
@@ -44,17 +45,18 @@
 			        }
 				});
 
-
 				//send the coords to the weather api
 				function handlePostcode(response) {
 					grabWeather(response.data.latitude, response.data.longitude);
 				}
 
+
 				//get data from weather api
 				function grabWeather(latitude, longitude) {
 					//console.log(latitude + "," + longitude + " " + ds_key);
 					var lat_long = latitude + "," + longitude;
-					var weather_url = 'https://crossorigin.me/https://api.darksky.net/forecast/' + ds_key + "/" + lat_long;
+					//use cors proxy - build locally when ready
+					var weather_url = "http://cors-anywhere.herokuapp.com/https://api.darksky.net/forecast/" + ds_key + "/" + lat_long;
 
 					$.ajax({
 						url: weather_url,
@@ -62,7 +64,8 @@
 						//valid json response
 						success: function(result) {
 							console.log("Weather object:", result);
-							$('#output').html("It is currently " + result.currently.apparentTemperature + " &#8457; at " + postcode);
+							//$('#output').html("It is currently " + result.currently.apparentTemperature + " &#8457; at " + postcode);
+							$('#output').html(result.currently.summary);
 							$('#loader').hide();
 						},
 						//invalid
@@ -76,6 +79,4 @@
 			});
 		</script>
 	</body>
-
-	
 </html>
