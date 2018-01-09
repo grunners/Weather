@@ -7,32 +7,30 @@
 	<body style="font-family: Calibri;">
 		
 	<form id="weather">
-		<input type="text" id="txtPostcode">
+		<input type="text" id="txtPostcode" value="LS25 2AP">
 		<input type="submit" value="Get Forecast">
 		<div class="forecast"></div>
+		<div class="icon" style="color:red;"></div>
 		<img id="loader" src="loader.gif" style="display: none;"/>
 	</form>
 
 		<script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
+		<script src="https://use.fontawesome.com/24c13f201f.js"></script>
 		<script src="js/models/forecast_model.js"></script>
 		<script src="js/views/forecast_view.js"></script>
 
 		<script type="text/javascript">
 			$(function() {
-
 				//on form submit
 				$('#weather').on('submit', function (e) {
 					var postcode = $("#txtPostcode").val();
-					console.log(postcode);
 
 					$('#loader').show();
-					$('#output').html("Loading...");
 
 		            e.preventDefault();
 		            $.ajax({
 		               	url: 'http://api.getthedata.com/postcode/' + postcode,
 		                type: 'GET',
-		                //valid json response
 		                success: function(result) {
 		                	if (result.status == "match") {
 		                		console.log("Postcode object:", result);
@@ -42,7 +40,6 @@
 		                		$('#loader').hide();
 		                		$('.forecast').html("<p>The postcode you have entered appears to be invalid</p>");
 		                	}
-		                	
 		                },
 		                //invalid
 		                error: function() {
@@ -55,7 +52,6 @@
 				function handlePostcode(response) {
 					grabWeather(response.data.latitude, response.data.longitude);
 				}
-
 
 				//get data from weather api
 				function grabWeather(latitude, longitude) {
@@ -70,3 +66,5 @@
 		</script>
 	</body>
 </html>
+
+
